@@ -40,8 +40,8 @@
 		0101C5681C0F28B100F6DAA3 = {
 			isa = PBXGroup;
 			children = (
-				0101C5721C0F28B100F6DAA3 /* Products */,
 				0101C5731C0F28B100F6DAA3 /* RCPickerButton */,
+				0101C5721C0F28B100F6DAA3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,9 +56,9 @@
 		0101C5731C0F28B100F6DAA3 /* RCPickerButton */ = {
 			isa = PBXGroup;
 			children = (
-				0101C5881C0F28E000F6DAA3 /* Supporting Files */,
 				0101C5871C0F28C300F6DAA3 /* resouce */,
 				0101C5861C0F28B800F6DAA3 /* src */,
+				0101C5881C0F28E000F6DAA3 /* Supporting Files */,
 			);
 			path = RCPickerButton;
 			sourceTree = "<group>";
@@ -288,6 +288,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "RCPickerButton/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RCPickerButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,6 +300,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "RCPickerButton/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RCPickerButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
