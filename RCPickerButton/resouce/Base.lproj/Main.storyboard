@@ -33,14 +33,41 @@
                                         <real key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="0.082059688532171826" green="1" blue="0.037363876405870688" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="checkmarkColor">
+                                        <color key="value" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4RJ-Ru-LGG" customClass="RCPickerButton" customModule="RCPickerButton" customModuleProvider="target">
+                                <rect key="frame" x="285" y="164" width="30" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ct1-2E-hjg"/>
+                                    <constraint firstAttribute="width" constant="30" id="yJq-g1-FDg"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="checkmarkWidth">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
                                         <color key="value" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="checkmarkImage" value="checkmark"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="avatar"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4RJ-Ru-LGG" firstAttribute="top" secondItem="5KO-5E-m7n" secondAttribute="bottom" constant="8" id="4xk-lr-JyB"/>
+                            <constraint firstItem="4RJ-Ru-LGG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9wX-mP-Zib"/>
                             <constraint firstItem="5KO-5E-m7n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="aM1-Pc-pV7"/>
                             <constraint firstItem="5KO-5E-m7n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xdR-n8-JIf"/>
                         </constraints>
@@ -50,4 +77,8 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="avatar" width="595" height="594"/>
+        <image name="checkmark" width="12" height="9"/>
+    </resources>
 </document>

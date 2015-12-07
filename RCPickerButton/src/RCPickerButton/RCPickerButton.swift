@@ -14,22 +14,21 @@ private let RCPickerButtonSelectionAnimationDuration = 0.15
 
 @IBDesignable
 class RCPickerButton: UIControl {
-    private let backgroundView   = UIImageView()
-    private let checkmarkLayer   = CAShapeLayer()
-    private let darkOverlayLayer = CALayer()
+    private let backgroundView     = UIImageView()
+    private let checkmarkImageView = UIImageView()
+    private let checkmarkLayer     = CAShapeLayer()
+    private let darkOverlayLayer   = CALayer()
     
     private var checkmarkPathPoints: [CGPoint] {
         get {
-            return [
-                CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
+            return [CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
                     CGPoint(x: 0.44 * bounds.width, y: 0.59 * bounds.height),
-                CGPoint(x: 0.34 * bounds.width, y: 0.5 * bounds.height),
-            ]
+                    CGPoint(x: 0.34 * bounds.width, y: 0.5 * bounds.height)]
         }
     }
     
     @IBInspectable var borderWidth: CGFloat = 1
-    @IBInspectable var checkmarkColor = UIColor(white: 50 / 255, alpha: 1) {
+    @IBInspectable var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
             checkmarkLayer.strokeColor = checkmarkColor.CGColor
             layoutIfNeeded()
@@ -37,13 +36,19 @@ class RCPickerButton: UIControl {
     }
     @IBInspectable var checkmarkImage: UIImage? {
         didSet {
-            backgroundView.image = checkmarkImage
+            checkmarkImageView.image = checkmarkImage
             layoutIfNeeded()
         }
     }
     @IBInspectable var checkmarkWidth: CGFloat = 1 {
         didSet {
             checkmarkLayer.lineWidth = checkmarkWidth
+            layoutIfNeeded()
+        }
+    }
+    @IBInspectable var image: UIImage? {
+        didSet {
+            backgroundView.image = image
             layoutIfNeeded()
         }
     }
@@ -101,9 +106,18 @@ class RCPickerButton: UIControl {
         
         backgroundView.backgroundColor  = color
         backgroundView.frame            = bounds
-        backgroundView.contentMode      = .Center
+        backgroundView.contentMode      = .ScaleAspectFit
         backgroundView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
+        backgroundView.clipsToBounds = true
         addSubview(backgroundView)
+        
+        checkmarkImageView.frame = bounds
+        checkmarkImageView.contentMode = .Center
+        checkmarkImageView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
+        checkmarkImageView.clipsToBounds = true
+        checkmarkImageView.layer.opacity = 0
+        
+        addSubview(checkmarkImageView)
         
         layer.borderColor = tintColor.CGColor
         layer.addSublayer(checkmarkLayer)
@@ -128,6 +142,7 @@ class RCPickerButton: UIControl {
         super.layoutSubviews()
         
         layer.cornerRadius = frame.size.height / 2
+        checkmarkImageView.layer.cornerRadius = layer.cornerRadius
         backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
         
         if checkmarkImage == nil {
@@ -200,7 +215,13 @@ class RCPickerButton: UIControl {
         backgroundView.layer.addAnimation(frameAnimation, forKey: "frame")
         
         if let _ = checkmarkImage {
-
+            let oldOpacity = checkmarkImageView.layer.opacity
+            checkmarkImageView.layer.opacity = selected ? 1 : 0
+            
+            let checkmarkAnimation = CABasicAnimation(keyPath: "opacity")
+            checkmarkAnimation.fromValue = oldOpacity
+            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
+            checkmarkImageView.layer.addAnimation(checkmarkAnimation, forKey: "opacity")
         } else {
             let oldProgress = checkmarkLayer.strokeEnd
             checkmarkLayer.strokeEnd = CGFloat(selected)
