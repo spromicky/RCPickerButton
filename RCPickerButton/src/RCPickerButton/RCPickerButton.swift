@@ -20,10 +20,31 @@ class RCPickerButton: UIControl {
     
     private var animated = false
     
-    @IBInspectable var checkmarkColor = UIColor(white: 50 / 255, alpha: 1)
-    @IBInspectable var checkmarkImage: UIImage?
-    @IBInspectable var checkmarkWidth: CGFloat = 1
     @IBInspectable var borderWidth: CGFloat = 1
+    @IBInspectable var checkmarkColor = UIColor(white: 50 / 255, alpha: 1) {
+        didSet {
+            checkmarkLayer.strokeColor = checkmarkColor.CGColor
+            layoutIfNeeded()
+        }
+    }
+    @IBInspectable var checkmarkImage: UIImage? {
+        didSet {
+            backgroundView.image = checkmarkImage
+            layoutIfNeeded()
+        }
+    }
+    @IBInspectable var checkmarkWidth: CGFloat = 1 {
+        didSet {
+            checkmarkLayer.lineWidth = checkmarkWidth
+            layoutIfNeeded()
+        }
+    }
+    @IBInspectable var color: UIColor = UIColor.whiteColor() {
+        didSet {
+            backgroundView.backgroundColor = color
+            layoutIfNeeded()
+        }
+    }
     
     override var frame: CGRect {
         didSet {
@@ -42,14 +63,37 @@ class RCPickerButton: UIControl {
         }
     }
     
+    
     //MARK: - Inits
-    init () {
-        let frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        configureLayers()
+    }
+    
+    convenience init() {
+        self.init(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+    }
+    
+    convenience init (image: UIImage) {
+        self.init()
+        backgroundView.image = image
+    }
+    
+    convenience init (color aColor: UIColor) {
+        self.init()
+        backgroundView.backgroundColor = aColor
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureLayers()
+    }
+    
+    func configureLayers() {
         clipsToBounds = true
         
-        backgroundView.frame            = frame
+        backgroundView.backgroundColor  = color
+        backgroundView.frame            = bounds
         backgroundView.contentMode      = .Center
         backgroundView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
         addSubview(backgroundView)
@@ -70,20 +114,6 @@ class RCPickerButton: UIControl {
             
             layer.addSublayer(checkmarkLayer)
         }
-    }
-    
-    convenience init (image: UIImage) {
-        self.init()
-        backgroundView.image = image
-    }
-    
-    convenience init (color: UIColor) {
-        self.init()
-        backgroundView.backgroundColor = color
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
     
     //MARK: -
@@ -171,7 +201,7 @@ class RCPickerButton: UIControl {
             
             let checkmarkAnimation = CABasicAnimation(keyPath: "strokeEnd")
             checkmarkAnimation.fromValue = oldProgress
-            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
+            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration / 2
             checkmarkLayer.addAnimation(checkmarkAnimation, forKey: "strokeEnd")
         }
     }

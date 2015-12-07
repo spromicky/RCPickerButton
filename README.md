@@ -5,7 +5,7 @@ Simple button for marking some items as selected. You can use it for select user
 ## Requirements
 
 - Xcode 7.0
-- iOS 7.0+
+- iOS 8.0+
 
 ## License
 
