@@ -18,7 +18,15 @@ class RCPickerButton: UIControl {
     private let checkmarkLayer   = CAShapeLayer()
     private let darkOverlayLayer = CALayer()
     
-    private var animated = false
+    private var checkmarkPathPoints: [CGPoint] {
+        get {
+            return [
+                CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
+                    CGPoint(x: 0.44 * bounds.width, y: 0.59 * bounds.height),
+                CGPoint(x: 0.34 * bounds.width, y: 0.5 * bounds.height),
+            ]
+        }
+    }
     
     @IBInspectable var borderWidth: CGFloat = 1
     @IBInspectable var checkmarkColor = UIColor(white: 50 / 255, alpha: 1) {
@@ -52,14 +60,13 @@ class RCPickerButton: UIControl {
             guard size.width != size.height else { return }
             
             let minValue = min(size.width, size.height)
-            frame = CGRect(origin: frame.origin, size: CGSize(width: minValue, height: minValue))
+            frame = CGRect(x: frame.origin.x + (size.width - minValue) / 2, y: frame.origin.y + (size.height - minValue) / 2, width: minValue, height: minValue)
         }
     }
     
     override var selected: Bool {
         didSet {
             selectionAnimation(selected)
-            animated = false
         }
     }
     
@@ -124,12 +131,7 @@ class RCPickerButton: UIControl {
         backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
         
         if checkmarkImage == nil {
-            let path = CGPathCreateMutable()
-            CGPathMoveToPoint(path, nil, 0.34 * bounds.width, 0.5 * bounds.height)
-            CGPathAddLineToPoint(path, nil, 0.44 * bounds.width, 0.59 * bounds.height)
-            CGPathAddLineToPoint(path, nil, 0.66 * bounds.width, 0.4 * bounds.height)
-            
-            checkmarkLayer.path = path
+            checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reverse() : checkmarkPathPoints)
         }
         
         darkOverlayLayer.frame = bounds
@@ -137,9 +139,13 @@ class RCPickerButton: UIControl {
         layer.addSublayer(darkOverlayLayer)
     }
     
-    func setSelected(aSelected: Bool, animated aAnimated: Bool) {
-        animated = aAnimated
-        selected = aSelected
+    func checkmarkPath(points: [CGPoint]) -> CGMutablePathRef {
+        return points.reduce(CGPathCreateMutable()) { (path, point) -> CGMutablePathRef in
+            guard !CGPathIsEmpty(path) else { CGPathMoveToPoint(path, nil, point.x, point.y); return path }
+            
+            CGPathAddLineToPoint(path, nil, point.x, point.y)
+            return path
+        }
     }
     
     //MARK: - Touches
@@ -201,7 +207,7 @@ class RCPickerButton: UIControl {
             
             let checkmarkAnimation = CABasicAnimation(keyPath: "strokeEnd")
             checkmarkAnimation.fromValue = oldProgress
-            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration / 2
+            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
             checkmarkLayer.addAnimation(checkmarkAnimation, forKey: "strokeEnd")
         }
     }

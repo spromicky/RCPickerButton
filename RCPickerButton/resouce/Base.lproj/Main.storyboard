@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5KO-5E-m7n" customClass="RCPickerButton" customModule="RCPickerButton" customModuleProvider="target">
-                                <rect key="frame" x="236" y="343" width="128" height="128"/>
+                                <rect key="frame" x="236" y="28" width="128" height="128"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -41,7 +41,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5KO-5E-m7n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="323" id="aM1-Pc-pV7"/>
+                            <constraint firstItem="5KO-5E-m7n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="aM1-Pc-pV7"/>
                             <constraint firstItem="5KO-5E-m7n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xdR-n8-JIf"/>
                         </constraints>
                     </view>

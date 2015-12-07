@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let button = RCPickerButton(color: UIColor.redColor())
-        button.frame = CGRect(x: 100, y: 100, width: 30, height: 85)
+        button.frame = CGRect(x: 40, y: 40, width: 30, height: 85)
         view.addSubview(button)
     }
 }
