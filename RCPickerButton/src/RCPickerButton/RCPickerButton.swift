@@ -13,7 +13,7 @@ private let RCPickerButtonTouchAnimationDuration = 0.15
 private let RCPickerButtonSelectionAnimationDuration = 0.15
 
 @IBDesignable
-class RCPickerButton: UIControl {
+public class RCPickerButton: UIControl {
     private let backgroundView     = UIImageView()
     private let checkmarkImageView = UIImageView()
     private let checkmarkLayer     = CAShapeLayer()
@@ -27,39 +27,39 @@ class RCPickerButton: UIControl {
         }
     }
     
-    @IBInspectable var borderWidth: CGFloat = 1
-    @IBInspectable var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
+    @IBInspectable public var borderWidth: CGFloat = 1
+    @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
             checkmarkLayer.strokeColor = checkmarkColor.CGColor
             layoutIfNeeded()
         }
     }
-    @IBInspectable var checkmarkImage: UIImage? {
+    @IBInspectable public var checkmarkImage: UIImage? {
         didSet {
             checkmarkImageView.image = checkmarkImage
             layoutIfNeeded()
         }
     }
-    @IBInspectable var checkmarkWidth: CGFloat = 1 {
+    @IBInspectable public var checkmarkWidth: CGFloat = 1 {
         didSet {
             checkmarkLayer.lineWidth = checkmarkWidth
             layoutIfNeeded()
         }
     }
-    @IBInspectable var image: UIImage? {
+    @IBInspectable public var image: UIImage? {
         didSet {
             backgroundView.image = image
             layoutIfNeeded()
         }
     }
-    @IBInspectable var color: UIColor = UIColor.whiteColor() {
+    @IBInspectable public var color: UIColor = UIColor.whiteColor() {
         didSet {
             backgroundView.backgroundColor = color
             layoutIfNeeded()
         }
     }
     
-    override var frame: CGRect {
+    override public var frame: CGRect {
         didSet {
             let size = frame.size
             guard size.width != size.height else { return }
@@ -69,7 +69,7 @@ class RCPickerButton: UIControl {
         }
     }
     
-    override var selected: Bool {
+    override public var selected: Bool {
         didSet {
             selectionAnimation(selected)
         }
@@ -77,31 +77,31 @@ class RCPickerButton: UIControl {
     
     
     //MARK: - Inits
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         configureLayers()
     }
     
-    convenience init() {
+    convenience public init() {
         self.init(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
     }
     
-    convenience init (image: UIImage) {
+    convenience public init (image: UIImage) {
         self.init()
         backgroundView.image = image
     }
     
-    convenience init (color aColor: UIColor) {
+    convenience public init (color aColor: UIColor) {
         self.init()
         backgroundView.backgroundColor = aColor
     }
-
-    required init?(coder aDecoder: NSCoder) {
+    
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureLayers()
     }
     
-    func configureLayers() {
+    internal func configureLayers() {
         clipsToBounds = true
         
         backgroundView.backgroundColor  = color
@@ -138,7 +138,7 @@ class RCPickerButton: UIControl {
     }
     
     //MARK: -
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         layer.cornerRadius = frame.size.height / 2
@@ -154,7 +154,7 @@ class RCPickerButton: UIControl {
         layer.addSublayer(darkOverlayLayer)
     }
     
-    func checkmarkPath(points: [CGPoint]) -> CGMutablePathRef {
+    private func checkmarkPath(points: [CGPoint]) -> CGMutablePathRef {
         return points.reduce(CGPathCreateMutable()) { (path, point) -> CGMutablePathRef in
             guard !CGPathIsEmpty(path) else { CGPathMoveToPoint(path, nil, point.x, point.y); return path }
             
@@ -164,12 +164,12 @@ class RCPickerButton: UIControl {
     }
     
     //MARK: - Touches
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+    override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         touchAnimation(false)
         return true
     }
     
-    override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+    override public func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         touchAnimation(true)
         
         guard CGRectContainsPoint(bounds, (touch?.locationInView(self))!) else { return }
@@ -177,7 +177,7 @@ class RCPickerButton: UIControl {
     }
     
     //MARK: - Animations
-    func touchAnimation(reverse: Bool) {
+    private func touchAnimation(reverse: Bool) {
         let oldScale = layer.transform.m11
         layer.transform = reverse ? CATransform3DIdentity : CATransform3DMakeScale(0.95, 0.95, 1)
         
@@ -195,7 +195,7 @@ class RCPickerButton: UIControl {
         darkOverlayLayer.addAnimation(opacityAnimation, forKey: "opacity")
     }
     
-    func selectionAnimation(selected: Bool) {
+    private func selectionAnimation(selected: Bool) {
         let oldBorderWidth = layer.borderWidth
         layer.borderWidth = selected ? borderWidth : 0
         
