@@ -210,9 +210,8 @@ public class RCPickerButton: UIControl {
     
     override public func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         touchAnimation(true)
-        
-        guard CGRectContainsPoint(bounds, (touch?.locationInView(self))!) else { return }
-        selected = !selected
+
+        if touchInside { selected = !selected }
     }
     
     //MARK: - Animations
