@@ -27,6 +27,17 @@ public class RCPickerButton: UIControl {
         }
     }
     
+    @IBInspectable public var checkmarkEnable: Bool = true {
+        didSet {
+            layoutIfNeeded()
+        }
+    }
+    @IBInspectable public var alwaysShowBorder: Bool = false {
+        didSet {
+            layoutIfNeeded()
+        }
+    }
+    
     @IBInspectable public var borderWidth: CGFloat = 1
     @IBInspectable public var borderContentOffset: CGFloat = 2
     @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
@@ -114,7 +125,7 @@ public class RCPickerButton: UIControl {
         
         backgroundView.backgroundColor  = color
         backgroundView.frame            = bounds
-        backgroundView.contentMode      = .ScaleAspectFit
+        backgroundView.contentMode      = contentMode
         backgroundView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
         backgroundView.clipsToBounds = true
         addSubview(backgroundView)
@@ -153,8 +164,15 @@ public class RCPickerButton: UIControl {
         checkmarkImageView.layer.cornerRadius = layer.cornerRadius
         backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
         
-        if checkmarkImage == nil {
+        if checkmarkEnable && checkmarkImage == nil {
             checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reverse() : checkmarkPathPoints)
+        }
+        
+        if alwaysShowBorder {
+            layer.borderWidth = borderWidth
+            
+            let offset = borderWidth + borderContentOffset
+            backgroundView.layer.frame = CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset)
         }
         
         darkOverlayLayer.frame = bounds
@@ -204,40 +222,46 @@ public class RCPickerButton: UIControl {
     }
     
     private func selectionAnimation(selected: Bool) {
-        let oldBorderWidth = layer.borderWidth
-        layer.borderWidth = selected ? borderWidth : 0
-        
-        let borderAnimation = CABasicAnimation(keyPath: "borderWidth")
-        borderAnimation.fromValue = oldBorderWidth
-        borderAnimation.duration = RCPickerButtonSelectionAnimationDuration
-        layer.addAnimation(borderAnimation, forKey: "borderWidth")
-        
-        let offset = borderWidth + borderContentOffset
-        let oldFrame = backgroundView.layer.frame
-        
-        backgroundView.layer.frame = selected ? CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset) : bounds
-        
-        let frameAnimation = CABasicAnimation(keyPath: "frame")
-        frameAnimation.fromValue = NSValue(CGRect:oldFrame)
-        frameAnimation.duration = RCPickerButtonSelectionAnimationDuration
-        backgroundView.layer.addAnimation(frameAnimation, forKey: "frame")
-        
-        if let _ = checkmarkImage {
-            let oldOpacity = checkmarkImageView.layer.opacity
-            checkmarkImageView.layer.opacity = selected ? 1 : 0
+        if !alwaysShowBorder {
+            let oldBorderWidth = layer.borderWidth
+            layer.borderWidth = selected ? borderWidth : 0
             
-            let checkmarkAnimation = CABasicAnimation(keyPath: "opacity")
-            checkmarkAnimation.fromValue = oldOpacity
-            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
-            checkmarkImageView.layer.addAnimation(checkmarkAnimation, forKey: "opacity")
-        } else {
-            let oldProgress = checkmarkLayer.strokeEnd
-            checkmarkLayer.strokeEnd = CGFloat(selected)
+            let borderAnimation = CABasicAnimation(keyPath: "borderWidth")
+            borderAnimation.fromValue = oldBorderWidth
+            borderAnimation.duration = RCPickerButtonSelectionAnimationDuration
+            layer.addAnimation(borderAnimation, forKey: "borderWidth")
             
-            let checkmarkAnimation = CABasicAnimation(keyPath: "strokeEnd")
-            checkmarkAnimation.fromValue = oldProgress
-            checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
-            checkmarkLayer.addAnimation(checkmarkAnimation, forKey: "strokeEnd")
+            let offset = borderWidth + borderContentOffset
+            let oldFrame = backgroundView.layer.frame
+            
+            backgroundView.layer.frame = selected ? CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset) : bounds
+            
+            let frameAnimation = CABasicAnimation(keyPath: "frame")
+            frameAnimation.fromValue = NSValue(CGRect:oldFrame)
+            frameAnimation.duration = RCPickerButtonSelectionAnimationDuration
+            backgroundView.layer.addAnimation(frameAnimation, forKey: "frame")
         }
+        
+        if checkmarkEnable {
+            checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reverse() : checkmarkPathPoints)
+            
+            if let _ = checkmarkImage {
+                let oldOpacity = checkmarkImageView.layer.opacity
+                checkmarkImageView.layer.opacity = selected ? 1 : 0
+                
+                let checkmarkAnimation = CABasicAnimation(keyPath: "opacity")
+                checkmarkAnimation.fromValue = oldOpacity
+                checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
+                checkmarkImageView.layer.addAnimation(checkmarkAnimation, forKey: "opacity")
+            } else {
+                let oldProgress = checkmarkLayer.strokeEnd
+                checkmarkLayer.strokeEnd = CGFloat(selected)
+                
+                let checkmarkAnimation = CABasicAnimation(keyPath: "strokeEnd")
+                checkmarkAnimation.fromValue = oldProgress
+                checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
+                checkmarkLayer.addAnimation(checkmarkAnimation, forKey: "strokeEnd")
+            }
+        }        
     }
 }
