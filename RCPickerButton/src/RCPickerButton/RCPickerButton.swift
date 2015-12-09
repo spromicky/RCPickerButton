@@ -28,6 +28,7 @@ public class RCPickerButton: UIControl {
     }
     
     //MARK: - IBInspectable
+    @IBInspectable public var autoToggle: Bool = true
     @IBInspectable public var checkmarkEnable: Bool = true {
         didSet {
             setNeedsLayout()
@@ -211,7 +212,7 @@ public class RCPickerButton: UIControl {
     override public func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         touchAnimation(true)
 
-        if touchInside { selected = !selected }
+        if autoToggle && touchInside { selected = !selected }
     }
     
     //MARK: - Animations
