@@ -69,6 +69,13 @@ public class RCPickerButton: UIControl {
             frame = CGRect(x: frame.origin.x + (size.width - minValue) / 2, y: frame.origin.y + (size.height - minValue) / 2, width: minValue, height: minValue)
         }
     }
+
+    override public var tintColor: UIColor! {
+        didSet {
+            layer.borderColor = tintColor.CGColor
+            layoutSubviews()
+        }
+    }
     
     override public var selected: Bool {
         didSet {
