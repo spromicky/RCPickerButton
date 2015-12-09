@@ -28,6 +28,7 @@ public class RCPickerButton: UIControl {
     }
     
     @IBInspectable public var borderWidth: CGFloat = 1
+    @IBInspectable public var borderContentOffset: CGFloat = 2
     @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
             checkmarkLayer.strokeColor = checkmarkColor.CGColor
@@ -204,7 +205,7 @@ public class RCPickerButton: UIControl {
         borderAnimation.duration = RCPickerButtonSelectionAnimationDuration
         layer.addAnimation(borderAnimation, forKey: "borderWidth")
         
-        let offset = borderWidth * 3
+        let offset = borderWidth + borderContentOffset
         let oldFrame = backgroundView.layer.frame
         
         backgroundView.layer.frame = selected ? CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset) : bounds

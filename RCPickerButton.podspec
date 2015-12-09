@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "RCPickerButton"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "Simple button for marking some items as selected."
   s.homepage     = "https://github.com/spromicky/RCPickerButton"
   s.license      = 'MIT'
