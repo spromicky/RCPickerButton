@@ -38,6 +38,13 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="checkmarkColor">
                                         <color key="value" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.082059688529999994" green="1" blue="0.037363876410000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="alwaysShowBorder" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColorSelected">
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4RJ-Ru-LGG" customClass="RCPickerButton" customModule="RCPickerButton" customModuleProvider="target">
@@ -60,6 +67,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="image" keyPath="checkmarkImage" value="checkmark"/>
                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="avatar"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColorSelected">
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>

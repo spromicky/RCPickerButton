@@ -27,50 +27,63 @@ public class RCPickerButton: UIControl {
         }
     }
     
+    //MARK: - IBInspectable
     @IBInspectable public var checkmarkEnable: Bool = true {
         didSet {
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     @IBInspectable public var alwaysShowBorder: Bool = false {
         didSet {
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     
     @IBInspectable public var borderWidth: CGFloat = 1
     @IBInspectable public var borderContentOffset: CGFloat = 2
+    @IBInspectable public var borderColor: UIColor = UIColor.whiteColor() {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    @IBInspectable public var borderColorSelected: UIColor = UIColor.whiteColor() {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
             checkmarkLayer.strokeColor = checkmarkColor.CGColor
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     @IBInspectable public var checkmarkImage: UIImage? {
         didSet {
             checkmarkImageView.image = checkmarkImage
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     @IBInspectable public var checkmarkWidth: CGFloat = 1 {
         didSet {
             checkmarkLayer.lineWidth = checkmarkWidth
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     @IBInspectable public var image: UIImage? {
         didSet {
             backgroundView.image = image
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     @IBInspectable public var color: UIColor = UIColor.whiteColor() {
         didSet {
             backgroundView.backgroundColor = color
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     
+    //MARK: - Override
     override public var frame: CGRect {
         didSet {
             let size = frame.size
@@ -80,11 +93,11 @@ public class RCPickerButton: UIControl {
             frame = CGRect(x: frame.origin.x + (size.width - minValue) / 2, y: frame.origin.y + (size.height - minValue) / 2, width: minValue, height: minValue)
         }
     }
-
-    override public var tintColor: UIColor! {
+    
+    override public var contentMode: UIViewContentMode {
         didSet {
-            layer.borderColor = tintColor.CGColor
-            layoutSubviews()
+            backgroundView.contentMode = contentMode
+            setNeedsLayout()
         }
     }
     
@@ -137,8 +150,6 @@ public class RCPickerButton: UIControl {
         checkmarkImageView.layer.opacity = 0
         
         addSubview(checkmarkImageView)
-        
-        layer.borderColor = tintColor.CGColor
         layer.addSublayer(checkmarkLayer)
         
         darkOverlayLayer.backgroundColor = UIColor(white: 0, alpha: 0.2).CGColor
@@ -173,6 +184,8 @@ public class RCPickerButton: UIControl {
             
             let offset = borderWidth + borderContentOffset
             backgroundView.layer.frame = CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset)
+            
+            layer.borderColor = selected ? borderColorSelected.CGColor : borderColor.CGColor
         }
         
         darkOverlayLayer.frame = bounds
@@ -223,6 +236,8 @@ public class RCPickerButton: UIControl {
     
     private func selectionAnimation(selected: Bool) {
         if !alwaysShowBorder {
+            layer.borderColor = borderColorSelected.CGColor
+            
             let oldBorderWidth = layer.borderWidth
             layer.borderWidth = selected ? borderWidth : 0
             
@@ -240,6 +255,8 @@ public class RCPickerButton: UIControl {
             frameAnimation.fromValue = NSValue(CGRect:oldFrame)
             frameAnimation.duration = RCPickerButtonSelectionAnimationDuration
             backgroundView.layer.addAnimation(frameAnimation, forKey: "frame")
+        } else {
+            layer.borderColor = selected ? borderColorSelected.CGColor : borderColor.CGColor
         }
         
         if checkmarkEnable {
