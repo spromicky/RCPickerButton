@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4RJ-Ru-LGG" customClass="RCPickerButton" customModule="RCPickerButton" customModuleProvider="target">
-                                <rect key="frame" x="156" y="28" width="128" height="128"/>
+                                <rect key="frame" x="160" y="28" width="128" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="Ct1-2E-hjg"/>
@@ -47,7 +47,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5KO-5E-m7n" customClass="RCPickerButton" customModule="RCPickerButton" customModuleProvider="target">
-                                <rect key="frame" x="335" y="28" width="128" height="128"/>
+                                <rect key="frame" x="312" y="28" width="128" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="128" id="DIY-UG-6Kn"/>
@@ -78,10 +78,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4RJ-Ru-LGG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-80" id="9wX-mP-Zib"/>
+                            <constraint firstItem="4RJ-Ru-LGG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-76" id="9wX-mP-Zib"/>
                             <constraint firstItem="5KO-5E-m7n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="aM1-Pc-pV7"/>
                             <constraint firstItem="4RJ-Ru-LGG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="flP-wO-l3Q"/>
-                            <constraint firstItem="5KO-5E-m7n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="99" id="xdR-n8-JIf"/>
+                            <constraint firstItem="5KO-5E-m7n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="76" id="xdR-n8-JIf"/>
                         </constraints>
                     </view>
                 </viewController>
