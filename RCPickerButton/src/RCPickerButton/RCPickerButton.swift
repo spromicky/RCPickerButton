@@ -12,6 +12,7 @@ import UIKit
 private let RCPickerButtonTouchAnimationDuration = 0.15
 private let RCPickerButtonSelectionAnimationDuration = 0.15
 
+/// Simple button for marking some items as selected.
 @IBDesignable
 public class RCPickerButton: UIControl {
     private let backgroundView     = UIImageView()
@@ -28,55 +29,71 @@ public class RCPickerButton: UIControl {
     }
     
     //MARK: - IBInspectable
+    
+    /// If `false` never set to `selected` state by user iteraction.
     @IBInspectable public var autoToggle: Bool = true
+    /// If `true` show checkmark image (in priority) or draw default, when selected.
     @IBInspectable public var checkmarkEnable: Bool = true {
         didSet {
             setNeedsLayout()
         }
     }
+    
+    /// If `true` always show border even if `selected` is `false`.
     @IBInspectable public var alwaysShowBorder: Bool = false {
         didSet {
             setNeedsLayout()
         }
     }
     
+    
+    /// Width of the selected state border.
     @IBInspectable public var borderWidth: CGFloat = 1
+    /// Offset between border and button content.
     @IBInspectable public var borderContentOffset: CGFloat = 2
+    /// Color of the border in default state.
     @IBInspectable public var borderColor: UIColor = UIColor.whiteColor() {
         didSet {
             setNeedsLayout()
         }
     }
+    /// Color of the border in selected state.
     @IBInspectable public var borderColorSelected: UIColor = UIColor.whiteColor() {
         didSet {
             setNeedsLayout()
         }
     }
     
+    
+    /// Color of the drawed checkmark for selected state.
     @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
             checkmarkLayer.strokeColor = checkmarkColor.CGColor
             setNeedsLayout()
         }
     }
-    @IBInspectable public var checkmarkImage: UIImage? {
-        didSet {
-            checkmarkImageView.image = checkmarkImage
-            setNeedsLayout()
-        }
-    }
+    /// Width of the drawed checkmark in selected state.
     @IBInspectable public var checkmarkWidth: CGFloat = 1 {
         didSet {
             checkmarkLayer.lineWidth = checkmarkWidth
             setNeedsLayout()
         }
     }
+    /// Image used for display selected state.
+    @IBInspectable public var checkmarkImage: UIImage? {
+        didSet {
+            checkmarkImageView.image = checkmarkImage
+            setNeedsLayout()
+        }
+    }
+    /// Image that used as content of the button. Just for example avatar.
     @IBInspectable public var image: UIImage? {
         didSet {
             backgroundView.image = image
             setNeedsLayout()
         }
     }
+    /// Color taht used as content of the button. Useful if button used for color select.
     @IBInspectable public var color: UIColor = UIColor.whiteColor() {
         didSet {
             backgroundView.backgroundColor = color
@@ -115,18 +132,37 @@ public class RCPickerButton: UIControl {
         configureLayers()
     }
     
+    /**
+     Create a default RCPickerButton.
+     
+     - returns: Default instance of the RCPickerButton.
+     */
     convenience public init() {
         self.init(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
     }
     
+    /**
+     Create a button with the `image` as content.
+     
+     - parameter image: Image that will be used as content for button.
+     
+     - returns: Instance of the RCPickerButton with `image` as content.
+     */
     convenience public init (image: UIImage) {
         self.init()
         backgroundView.image = image
     }
     
-    convenience public init (color aColor: UIColor) {
+    /**
+     Create a button with the `color` as content.
+     
+     - parameter color: Color that will be used as content for button.
+     
+     - returns: Instance of the RCPickerButton with `color` as content.
+     */
+    convenience public init (color: UIColor) {
         self.init()
-        backgroundView.backgroundColor = aColor
+        backgroundView.backgroundColor = color
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -134,7 +170,7 @@ public class RCPickerButton: UIControl {
         configureLayers()
     }
     
-    internal func configureLayers() {
+    private func configureLayers() {
         clipsToBounds = true
         
         backgroundView.backgroundColor  = color
