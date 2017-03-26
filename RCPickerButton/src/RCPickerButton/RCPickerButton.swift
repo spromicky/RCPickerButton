@@ -14,13 +14,13 @@ private let RCPickerButtonSelectionAnimationDuration = 0.15
 
 /// Simple button for marking some items as selected.
 @IBDesignable
-public class RCPickerButton: UIControl {
-    private let backgroundView     = UIImageView()
-    private let checkmarkImageView = UIImageView()
-    private let checkmarkLayer     = CAShapeLayer()
-    private let darkOverlayLayer   = CALayer()
+open class RCPickerButton: UIControl {
+    fileprivate let backgroundView     = UIImageView()
+    fileprivate let checkmarkImageView = UIImageView()
+    fileprivate let checkmarkLayer     = CAShapeLayer()
+    fileprivate let darkOverlayLayer   = CALayer()
     
-    private var checkmarkPathPoints: [CGPoint] {
+    fileprivate var checkmarkPathPoints: [CGPoint] {
         get {
             return [CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
                     CGPoint(x: 0.44 * bounds.width, y: 0.59 * bounds.height),
@@ -31,16 +31,16 @@ public class RCPickerButton: UIControl {
     //MARK: - IBInspectable
     
     /// If `false` never set to `selected` state by user iteraction.
-    @IBInspectable public var autoToggle: Bool = true
+    @IBInspectable open var autoToggle: Bool = true
     /// If `true` show checkmark image (in priority) or draw default, when selected.
-    @IBInspectable public var checkmarkEnable: Bool = true {
+    @IBInspectable open var checkmarkEnable: Bool = true {
         didSet {
             setNeedsLayout()
         }
     }
     
     /// If `true` always show border even if `selected` is `false`.
-    @IBInspectable public var alwaysShowBorder: Bool = false {
+    @IBInspectable open var alwaysShowBorder: Bool = false {
         didSet {
             setNeedsLayout()
         }
@@ -48,17 +48,17 @@ public class RCPickerButton: UIControl {
     
     
     /// Width of the selected state border.
-    @IBInspectable public var borderWidth: CGFloat = 1
+    @IBInspectable open var borderWidth: CGFloat = 1
     /// Offset between border and button content.
-    @IBInspectable public var borderContentOffset: CGFloat = 2
+    @IBInspectable open var borderContentOffset: CGFloat = 2
     /// Color of the border in default state.
-    @IBInspectable public var borderColor: UIColor = UIColor.whiteColor() {
+    @IBInspectable open var borderColor: UIColor = UIColor.white {
         didSet {
             setNeedsLayout()
         }
     }
     /// Color of the border in selected state.
-    @IBInspectable public var borderColorSelected: UIColor = UIColor.whiteColor() {
+    @IBInspectable open var borderColorSelected: UIColor = UIColor.white {
         didSet {
             setNeedsLayout()
         }
@@ -66,35 +66,35 @@ public class RCPickerButton: UIControl {
     
     
     /// Color of the drawed checkmark for selected state.
-    @IBInspectable public var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
+    @IBInspectable open var checkmarkColor: UIColor = UIColor(white: 50 / 255, alpha: 1) {
         didSet {
-            checkmarkLayer.strokeColor = checkmarkColor.CGColor
+            checkmarkLayer.strokeColor = checkmarkColor.cgColor
             setNeedsLayout()
         }
     }
     /// Width of the drawed checkmark in selected state.
-    @IBInspectable public var checkmarkWidth: CGFloat = 1 {
+    @IBInspectable open var checkmarkWidth: CGFloat = 1 {
         didSet {
             checkmarkLayer.lineWidth = checkmarkWidth
             setNeedsLayout()
         }
     }
     /// Image used for display selected state.
-    @IBInspectable public var checkmarkImage: UIImage? {
+    @IBInspectable open var checkmarkImage: UIImage? {
         didSet {
             checkmarkImageView.image = checkmarkImage
             setNeedsLayout()
         }
     }
     /// Image that used as content of the button. Just for example avatar.
-    @IBInspectable public var image: UIImage? {
+    @IBInspectable open var image: UIImage? {
         didSet {
             backgroundView.image = image
             setNeedsLayout()
         }
     }
     /// Color taht used as content of the button. Useful if button used for color select.
-    @IBInspectable public var color: UIColor = UIColor.whiteColor() {
+    @IBInspectable open var color: UIColor = UIColor.white {
         didSet {
             backgroundView.backgroundColor = color
             setNeedsLayout()
@@ -102,7 +102,7 @@ public class RCPickerButton: UIControl {
     }
     
     //MARK: - Override
-    override public var frame: CGRect {
+    override open var frame: CGRect {
         didSet {
             let size = frame.size
             guard size.width != size.height else { return }
@@ -112,16 +112,16 @@ public class RCPickerButton: UIControl {
         }
     }
     
-    override public var contentMode: UIViewContentMode {
+    override open var contentMode: UIViewContentMode {
         didSet {
             backgroundView.contentMode = contentMode
             setNeedsLayout()
         }
     }
     
-    override public var selected: Bool {
+    override open var isSelected: Bool {
         didSet {
-            selectionAnimation(selected)
+            animate(selected: isSelected)
         }
     }
     
@@ -170,32 +170,32 @@ public class RCPickerButton: UIControl {
         configureLayers()
     }
     
-    private func configureLayers() {
+    fileprivate func configureLayers() {
         clipsToBounds = true
         
         backgroundView.backgroundColor  = color
         backgroundView.frame            = bounds
         backgroundView.contentMode      = contentMode
-        backgroundView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
+        backgroundView.autoresizingMask = [.flexibleBottomMargin, .flexibleHeight, .flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleWidth]
         backgroundView.clipsToBounds = true
         addSubview(backgroundView)
         
         checkmarkImageView.frame = bounds
-        checkmarkImageView.contentMode = .Center
-        checkmarkImageView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleHeight, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin, .FlexibleWidth]
+        checkmarkImageView.contentMode = .center
+        checkmarkImageView.autoresizingMask = [.flexibleBottomMargin, .flexibleHeight, .flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleWidth]
         checkmarkImageView.clipsToBounds = true
         checkmarkImageView.layer.opacity = 0
         
         addSubview(checkmarkImageView)
         layer.addSublayer(checkmarkLayer)
         
-        darkOverlayLayer.backgroundColor = UIColor(white: 0, alpha: 0.2).CGColor
+        darkOverlayLayer.backgroundColor = UIColor(white: 0, alpha: 0.2).cgColor
         darkOverlayLayer.opacity = 0
         layer.addSublayer(darkOverlayLayer)
         
         if checkmarkImage == nil {
-            checkmarkLayer.fillColor = UIColor.clearColor().CGColor
-            checkmarkLayer.strokeColor = checkmarkColor.CGColor
+            checkmarkLayer.fillColor = UIColor.clear.cgColor
+            checkmarkLayer.strokeColor = checkmarkColor.cgColor
             checkmarkLayer.allowsEdgeAntialiasing = true
             checkmarkLayer.strokeEnd = 0
             checkmarkLayer.lineWidth = checkmarkWidth
@@ -205,7 +205,7 @@ public class RCPickerButton: UIControl {
     }
     
     //MARK: -
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         
         layer.cornerRadius = frame.size.height / 2
@@ -213,7 +213,7 @@ public class RCPickerButton: UIControl {
         backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
         
         if checkmarkEnable && checkmarkImage == nil {
-            checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reverse() : checkmarkPathPoints)
+            checkmarkLayer.path = checkmarkPath(isSelected ? checkmarkPathPoints.reversed() : checkmarkPathPoints)
         }
         
         if alwaysShowBorder {
@@ -222,7 +222,7 @@ public class RCPickerButton: UIControl {
             let offset = borderWidth + borderContentOffset
             backgroundView.layer.frame = CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset)
             
-            layer.borderColor = selected ? borderColorSelected.CGColor : borderColor.CGColor
+            layer.borderColor = isSelected ? borderColorSelected.cgColor : borderColor.cgColor
         }
         
         darkOverlayLayer.frame = bounds
@@ -230,36 +230,36 @@ public class RCPickerButton: UIControl {
         layer.addSublayer(darkOverlayLayer)
     }
     
-    private func checkmarkPath(points: [CGPoint]) -> CGMutablePathRef {
-        return points.reduce(CGPathCreateMutable()) { (path, point) -> CGMutablePathRef in
-            guard !CGPathIsEmpty(path) else { CGPathMoveToPoint(path, nil, point.x, point.y); return path }
+    fileprivate func checkmarkPath(_ points: [CGPoint]) -> CGMutablePath {
+        return points.reduce(CGMutablePath()) { (path, point) -> CGMutablePath in
+            guard !path.isEmpty else { path.move(to: point); return path }
             
-            CGPathAddLineToPoint(path, nil, point.x, point.y)
+            path.addLine(to: point)
             return path
         }
     }
     
     //MARK: - Touches
-    override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
+    override open func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         touchAnimation(false)
         return true
     }
     
-    override public func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+    override open func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         touchAnimation(true)
 
-        if autoToggle && touchInside { selected = !selected }
+        if autoToggle && isTouchInside { isSelected = !isSelected }
     }
     
     //MARK: - Animations
-    private func touchAnimation(reverse: Bool) {
+    fileprivate func touchAnimation(_ reverse: Bool) {
         let oldScale = layer.transform.m11
         layer.transform = reverse ? CATransform3DIdentity : CATransform3DMakeScale(0.95, 0.95, 1)
         
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = oldScale
         scaleAnimation.duration = RCPickerButtonTouchAnimationDuration
-        layer.addAnimation(scaleAnimation, forKey: "transform.scale")
+        layer.add(scaleAnimation, forKey: "transform.scale")
         
         let oldOpacity = darkOverlayLayer.opacity
         darkOverlayLayer.opacity = reverse ? 0 : 1
@@ -267,12 +267,12 @@ public class RCPickerButton: UIControl {
         let opacityAnimation = CABasicAnimation(keyPath: "opacity")
         opacityAnimation.fromValue = oldOpacity
         scaleAnimation.duration = RCPickerButtonTouchAnimationDuration
-        darkOverlayLayer.addAnimation(opacityAnimation, forKey: "opacity")
+        darkOverlayLayer.add(opacityAnimation, forKey: "opacity")
     }
     
-    private func selectionAnimation(selected: Bool) {
+    fileprivate func animate(selected: Bool) {
         if !alwaysShowBorder {
-            layer.borderColor = borderColorSelected.CGColor
+            layer.borderColor = borderColorSelected.cgColor
             
             let oldBorderWidth = layer.borderWidth
             layer.borderWidth = selected ? borderWidth : 0
@@ -280,7 +280,7 @@ public class RCPickerButton: UIControl {
             let borderAnimation = CABasicAnimation(keyPath: "borderWidth")
             borderAnimation.fromValue = oldBorderWidth
             borderAnimation.duration = RCPickerButtonSelectionAnimationDuration
-            layer.addAnimation(borderAnimation, forKey: "borderWidth")
+            layer.add(borderAnimation, forKey: "borderWidth")
             
             let offset = borderWidth + borderContentOffset
             let oldFrame = backgroundView.layer.frame
@@ -288,15 +288,15 @@ public class RCPickerButton: UIControl {
             backgroundView.layer.frame = selected ? CGRect(x: offset, y: offset, width: frame.size.width - 2 * offset, height: frame.size.height - 2 * offset) : bounds
             
             let frameAnimation = CABasicAnimation(keyPath: "frame")
-            frameAnimation.fromValue = NSValue(CGRect:oldFrame)
+            frameAnimation.fromValue = NSValue(cgRect:oldFrame)
             frameAnimation.duration = RCPickerButtonSelectionAnimationDuration
-            backgroundView.layer.addAnimation(frameAnimation, forKey: "frame")
+            backgroundView.layer.add(frameAnimation, forKey: "frame")
         } else {
-            layer.borderColor = selected ? borderColorSelected.CGColor : borderColor.CGColor
+            layer.borderColor = selected ? borderColorSelected.cgColor : borderColor.cgColor
         }
         
         if checkmarkEnable {
-            checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reverse() : checkmarkPathPoints)
+            checkmarkLayer.path = checkmarkPath(selected ? checkmarkPathPoints.reversed() : checkmarkPathPoints)
             
             if let _ = checkmarkImage {
                 let oldOpacity = checkmarkImageView.layer.opacity
@@ -305,15 +305,15 @@ public class RCPickerButton: UIControl {
                 let checkmarkAnimation = CABasicAnimation(keyPath: "opacity")
                 checkmarkAnimation.fromValue = oldOpacity
                 checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
-                checkmarkImageView.layer.addAnimation(checkmarkAnimation, forKey: "opacity")
+                checkmarkImageView.layer.add(checkmarkAnimation, forKey: "opacity")
             } else {
                 let oldProgress = checkmarkLayer.strokeEnd
-                checkmarkLayer.strokeEnd = CGFloat(selected)
+                checkmarkLayer.strokeEnd = selected ? 1 : 0
                 
                 let checkmarkAnimation = CABasicAnimation(keyPath: "strokeEnd")
                 checkmarkAnimation.fromValue = oldProgress
                 checkmarkAnimation.duration = RCPickerButtonSelectionAnimationDuration
-                checkmarkLayer.addAnimation(checkmarkAnimation, forKey: "strokeEnd")
+                checkmarkLayer.add(checkmarkAnimation, forKey: "strokeEnd")
             }
         }        
     }
