@@ -15,17 +15,15 @@ private let RCPickerButtonSelectionAnimationDuration = 0.15
 /// Simple button for marking some items as selected.
 @IBDesignable
 open class RCPickerButton: UIControl {
-    fileprivate let backgroundView     = UIImageView()
-    fileprivate let checkmarkImageView = UIImageView()
-    fileprivate let checkmarkLayer     = CAShapeLayer()
-    fileprivate let darkOverlayLayer   = CALayer()
+    private let backgroundView     = UIImageView()
+    private let checkmarkImageView = UIImageView()
+    private let checkmarkLayer     = CAShapeLayer()
+    private let darkOverlayLayer   = CALayer()
     
-    fileprivate var checkmarkPathPoints: [CGPoint] {
-        get {
-            return [CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
-                    CGPoint(x: 0.44 * bounds.width, y: 0.59 * bounds.height),
-                    CGPoint(x: 0.34 * bounds.width, y: 0.5 * bounds.height)]
-        }
+    private var checkmarkPathPoints: [CGPoint] {
+        return [CGPoint(x: 0.66 * bounds.width, y: 0.4 * bounds.height),
+                CGPoint(x: 0.44 * bounds.width, y: 0.59 * bounds.height),
+                CGPoint(x: 0.34 * bounds.width, y: 0.5 * bounds.height)]
     }
     
     //MARK: - IBInspectable
@@ -170,7 +168,7 @@ open class RCPickerButton: UIControl {
         configureLayers()
     }
     
-    fileprivate func configureLayers() {
+    private func configureLayers() {
         clipsToBounds = true
         
         backgroundView.backgroundColor  = color
@@ -230,7 +228,7 @@ open class RCPickerButton: UIControl {
         layer.addSublayer(darkOverlayLayer)
     }
     
-    fileprivate func checkmarkPath(_ points: [CGPoint]) -> CGMutablePath {
+    private func checkmarkPath(_ points: [CGPoint]) -> CGMutablePath {
         return points.reduce(CGMutablePath()) { (path, point) -> CGMutablePath in
             guard !path.isEmpty else { path.move(to: point); return path }
             
@@ -252,7 +250,7 @@ open class RCPickerButton: UIControl {
     }
     
     //MARK: - Animations
-    fileprivate func touchAnimation(_ reverse: Bool) {
+    private func touchAnimation(_ reverse: Bool) {
         let oldScale = layer.transform.m11
         layer.transform = reverse ? CATransform3DIdentity : CATransform3DMakeScale(0.95, 0.95, 1)
         
@@ -270,7 +268,7 @@ open class RCPickerButton: UIControl {
         darkOverlayLayer.add(opacityAnimation, forKey: "opacity")
     }
     
-    fileprivate func animate(selected: Bool) {
+    private func animate(selected: Bool) {
         if !alwaysShowBorder {
             layer.borderColor = borderColorSelected.cgColor
             
